@@ -799,36 +799,19 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   var bers = document.getElementById("fBers").value;
   var sujet = "Demande de devis - " + pre + " " + nom;
   var corps =
-    "Bonjour,
-
-" +
-    "Nom : " + nom + "
-" +
-    "Prenom : " + pre + "
-" +
-    "Adresse : " + (adr || "non renseignee") + "
-" +
-    "Email : " + mail + "
-
-" +
-    "Lieu de prise en charge : " + dep + "
-" +
-    "Lieu de livraison : " + arr + "
-" +
-    "Mise a l eau ou sortie d eau : " + eau + "
-" +
-    "Mise sur bers ou manutention : " + bers + "
-
-" +
-    "Type de bateau : " + type + "
-" +
-    "Longueur : " + lon + " m
-" +
-    "Poids : " + (pds || "non renseigne") + " kg
-" +
-    "Date envisagee : " + (dat || "non renseignee") + "
-
-" +
+    "Bonjour,\n\n" +
+    "Nom : " + nom + "\n" +
+    "Prenom : " + pre + "\n" +
+    "Adresse : " + (adr || "non renseignee") + "\n" +
+    "Email : " + mail + "\n\n" +
+    "Lieu de prise en charge : " + dep + "\n" +
+    "Lieu de livraison : " + arr + "\n" +
+    "Mise a l eau ou sortie d eau : " + eau + "\n" +
+    "Mise sur bers ou manutention : " + bers + "\n\n" +
+    "Type de bateau : " + type + "\n" +
+    "Longueur : " + lon + " m\n" +
+    "Poids : " + (pds || "non renseigne") + " kg\n" +
+    "Date envisagee : " + (dat || "non renseignee") + "\n\n" +
     "Cordialement";
   window.location.href = "mailto:thonygeorget@gmail.com?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
   document.getElementById("formZone").style.display = "none";
