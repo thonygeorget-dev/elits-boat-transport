@@ -48,6 +48,7 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   var dat  = document.getElementById("fDate").value;
   var eau  = document.getElementById("fEau").value;
   var bers = document.getElementById("fBers").value;
+  var prise = document.getElementById("fPrise").value;
   var sujet = "Demande de devis - " + pre + " " + nom;
   var corps =
     "Bonjour,\n\n" +
@@ -58,7 +59,8 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
     "Lieu de prise en charge : " + dep + "\n" +
     "Lieu de livraison : " + arr + "\n" +
     "Mise a l eau ou sortie d eau : " + eau + "\n" +
-    "Mise sur bers ou manutention : " + bers + "\n\n" +
+    "Mise sur bers ou manutention : " + bers + "\n" +
+    "Forfait prise en charge (sanglage, amarrage) : " + prise + "\n\n" +
     "Type de bateau : " + type + "\n" +
     "Longueur : " + lon + " m\n" +
     "Poids : " + (pds || "non renseigne") + " kg\n" +

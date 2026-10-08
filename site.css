@@ -279,7 +279,7 @@ footer { background:#0a0e1a; padding:28px 4%; display:flex; justify-content:spac
 .m-tags a:hover { border-color:var(--blue); color:var(--blue); }
 
 /* Galerie missions + visionneuse */
-.m-gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin:16px 0 4px; }
+.m-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,150px)); gap:10px; margin:16px 0 4px; }
 .m-ph { display:block; aspect-ratio:4/3; border-radius:10px; overflow:hidden; background:var(--sand); cursor:zoom-in; }
 .m-ph img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.25s; }
 .m-ph:hover img { transform:scale(1.04); }
@@ -292,3 +292,13 @@ footer { background:#0a0e1a; padding:28px 4%; display:flex; justify-content:spac
 .lb-p { left:14px; top:50%; margin-top:-22px; }
 .lb-n { right:14px; top:50%; margin-top:-22px; }
 .lb.single .lb-p, .lb.single .lb-n { display:none; }
+
+/* Deux photos côte à côte */
+.duo { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:900px; margin:30px auto 0; }
+.duo figure { margin:0; }
+.duo .m-ph { display:block; aspect-ratio:4/3; border-radius:12px; overflow:hidden; }
+.duo figcaption { font-size:13px; color:var(--t2); text-align:center; padding:9px 4px 0; line-height:1.5; }
+@media (max-width:640px) { .duo { grid-template-columns:1fr; } }
+
+.m-gallery.wide { grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); }
+@media (max-width:640px) { .m-gallery { grid-template-columns:repeat(3,1fr); } .m-gallery.wide { grid-template-columns:1fr 1fr; } }
