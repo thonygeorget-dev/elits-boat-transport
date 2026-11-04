@@ -903,8 +903,9 @@ document.getElementById("ov").addEventListener("click", function(e) {
 document.getElementById("btnDevis1").addEventListener("click", ouvrirDevis);
 document.getElementById("btnDevis2").addEventListener("click", ouvrirDevis);
 
-// ---- ENVOI DEVIS ----
+// ---- ENVOI DEVIS (envoi réel par serveur via FormSubmit, copie dans la boîte mail) ----
 document.getElementById("btnEnvoyer").addEventListener("click", function() {
+  var btn  = document.getElementById("btnEnvoyer");
   var nom  = document.getElementById("fNom").value.trim();
   var pre  = document.getElementById("fPre").value.trim();
   var mail = document.getElementById("fMail").value.trim();
@@ -916,32 +917,79 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
     alert("Merci de renseigner tous les champs obligatoires (*)");
     return;
   }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
+    alert("Merci de vérifier votre adresse e-mail : elle semble incorrecte.");
+    return;
+  }
   var adr  = document.getElementById("fAdr").value.trim();
   var pds  = document.getElementById("fPds").value.trim();
   var dat  = document.getElementById("fDate").value;
   var eau  = document.getElementById("fEau").value;
   var bers = document.getElementById("fBers").value;
   var prise = document.getElementById("fPrise").value;
-  var sujet = "Demande de devis - " + pre + " " + nom;
-  var corps =
-    "Bonjour,\n\n" +
-    "Nom : " + nom + "\n" +
-    "Prenom : " + pre + "\n" +
-    "Adresse : " + (adr || "non renseignee") + "\n" +
-    "Email : " + mail + "\n\n" +
-    "Lieu de prise en charge : " + dep + "\n" +
-    "Lieu de livraison : " + arr + "\n" +
-    "Mise a l eau ou sortie d eau : " + eau + "\n" +
-    "Mise sur bers ou manutention : " + bers + "\n" +
-    "Forfait prise en charge (si vous n’êtes pas présent pour l’intendance, hors mise à l’eau) : " + prise + "\n\n" +
-    "Type de bateau : " + type + "\n" +
-    "Longueur : " + lon + " m\n" +
-    "Poids : " + (pds || "non renseigne") + " kg\n" +
-    "Date envisagee : " + (dat || "non renseignee") + "\n\n" +
-    "Cordialement";
-  window.location.href = "mailto:thonygeorget@elitsboattransport.fr?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
-  document.getElementById("formZone").style.display = "none";
-  document.getElementById("fok").style.display = "block";
+  var hp = document.getElementById("fHoney");
+  if (!hp) {
+    hp = document.createElement("input");
+    hp.type = "text"; hp.id = "fHoney"; hp.tabIndex = -1; hp.autocomplete = "off";
+    hp.setAttribute("aria-hidden", "true");
+    hp.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
+    document.getElementById("formZone").appendChild(hp);
+  }
+  var err = document.getElementById("fErr");
+  if (!err) {
+    err = document.createElement("div");
+    err.id = "fErr";
+    err.setAttribute("role", "alert");
+    err.style.cssText = "display:none;margin-top:14px;padding:12px 14px;border-radius:9px;background:#fdecea;color:#8a1c14;font-size:14px;line-height:1.6;border:1px solid #f1b5b0";
+    btn.parentNode.appendChild(err);
+  }
+  err.style.display = "none";
+  var libelle = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = "Envoi en cours…";
+  var data = {
+    "_subject": "Demande de devis - " + pre + " " + nom,
+    "_template": "table",
+    "_captcha": "false",
+    "_honey": hp.value,
+    "Nom": nom,
+    "Prénom": pre,
+    "email": mail,
+    "Adresse": adr || "non renseignée",
+    "Lieu de prise en charge": dep,
+    "Lieu de livraison": arr,
+    "Mise à l'eau ou sortie d'eau": eau,
+    "Mise sur bers ou manutention": bers,
+    "Forfait prise en charge": prise,
+    "Type de bateau": type,
+    "Longueur (m)": lon,
+    "Poids (kg)": pds || "non renseigné",
+    "Date envisagée": dat || "non renseignée",
+    "Page d'origine": location.href
+  };
+  var ctrl = (typeof AbortController !== "undefined") ? new AbortController() : null;
+  var tmo = ctrl ? setTimeout(function() { ctrl.abort(); }, 20000) : null;
+  fetch("https://formsubmit.co/ajax/thonygeorget@gmail.com", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(data),
+    signal: ctrl ? ctrl.signal : undefined
+  }).then(function(r) { return r.json().then(function(j) { return { ok: r.ok, j: j }; }); })
+  .then(function(res) {
+    if (tmo) clearTimeout(tmo);
+    if (res.ok && (res.j.success === true || res.j.success === "true")) {
+      document.getElementById("formZone").style.display = "none";
+      document.getElementById("fok").style.display = "block";
+    } else {
+      throw new Error("echec");
+    }
+  }).catch(function() {
+    if (tmo) clearTimeout(tmo);
+    btn.disabled = false;
+    btn.textContent = libelle;
+    err.innerHTML = "<strong>Votre demande n'a pas pu être envoyée.</strong> Vos informations sont conservées : vous pouvez réessayer, ou nous appeler au <a href=\"tel:0667040674\" style=\"color:#8a1c14;font-weight:700\">06.67.04.06.74</a> / écrire à <a href=\"mailto:thonygeorget@elitsboattransport.fr\" style=\"color:#8a1c14;font-weight:700\">thonygeorget@elitsboattransport.fr</a>.";
+    err.style.display = "block";
+  });
 });
 
 </script>
