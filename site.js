@@ -87,7 +87,8 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
     "Lieu de livraison": arr,
     "Mise à l'eau ou sortie d'eau": eau,
     "Mise sur bers ou manutention": bers,
-    "Forfait prise en charge": prise,
+    "Forfait d'arrimage du bateau (obligatoire)": "40 € - mise sur remorque et sanglage",
+    "Forfait prise en charge (aller chercher et ramener le bateau au ponton)": prise,
     "Type de bateau": type,
     "Longueur (m)": lon,
     "Poids (kg)": pds || "non renseigné",
@@ -108,13 +109,16 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
       document.getElementById("formZone").style.display = "none";
       document.getElementById("fok").style.display = "block";
     } else {
-      throw new Error("echec");
+      throw new Error((res.j && res.j.message) ? String(res.j.message) : "echec");
     }
-  }).catch(function() {
+  }).catch(function(e) {
     if (tmo) clearTimeout(tmo);
     btn.disabled = false;
     btn.textContent = libelle;
     err.innerHTML = "<strong>Votre demande n'a pas pu être envoyée.</strong> Vos informations sont conservées : vous pouvez réessayer, ou nous appeler au <a href=\"tel:0667040674\" style=\"color:#8a1c14;font-weight:700\">06.67.04.06.74</a> / écrire à <a href=\"mailto:thonygeorget@elitsboattransport.fr\" style=\"color:#8a1c14;font-weight:700\">thonygeorget@elitsboattransport.fr</a>.";
+    if (e && e.message && e.message !== "echec" && e.name !== "TypeError" && e.name !== "AbortError") {
+      err.innerHTML += "<br><small style=\"opacity:.8\">Détail technique : " + String(e.message).replace(/</g, "&lt;").slice(0, 200) + "</small>";
+    }
     err.style.display = "block";
   });
 });
