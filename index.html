@@ -974,10 +974,11 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   btn.disabled = true;
   btn.textContent = "Envoi en cours…";
   var data = {
-    "_subject": "Demande de devis - " + pre + " " + nom,
-    "_template": "table",
-    "_captcha": "false",
-    "_honey": hp.value,
+    "access_key": "37ab6ef2-7308-4cde-9dbb-cff02e793c8b",
+    "subject": "Demande de devis - " + pre + " " + nom,
+    "from_name": "Site elitsboattransport.fr",
+    "botcheck": hp.value,
+    "name": pre + " " + nom,
     "Nom": nom,
     "Prénom": pre,
     "email": mail,
@@ -1000,7 +1001,7 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   };
   var ctrl = (typeof AbortController !== "undefined") ? new AbortController() : null;
   var tmo = ctrl ? setTimeout(function() { ctrl.abort(); }, 20000) : null;
-  fetch("https://formsubmit.co/ajax/thonygeorget@gmail.com", {
+  fetch("https://api.web3forms.com/submit", {
     method: "POST",
     headers: { "Content-Type": "application/json", "Accept": "application/json" },
     body: JSON.stringify(data),
