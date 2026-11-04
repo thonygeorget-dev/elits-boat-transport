@@ -73,24 +73,35 @@
             <label>Lieu de livraison *</label>
             <input type="text" id="fArr" placeholder="Ex : 5 allée des Pins, 17137 L'Houmeau">
           </div>
-          <div class="fg full">
-            <label>Mise à l'eau ou sortie d'eau à réaliser ?</label>
-            <select id="fEau">
+          <div class="fg">
+            <label>Mise &agrave; l&rsquo;eau ou sortie d&rsquo;eau au lieu de prise en charge ?</label>
+            <select id="fEauDep">
               <option>Non</option>
-              <option>Oui - Mise à l'eau (+40 &euro;)</option>
-              <option>Oui - Sortie d'eau</option>
-              <option>Les deux - Sortie et remise à l'eau</option>
+              <option>Oui (+40 &euro;)</option>
             </select>
           </div>
-          <div class="fg full">
-            <label>Mise sur bers ou manutention sur place ?</label>
-            <select id="fBers">
+          <div class="fg">
+            <label>Mise &agrave; l&rsquo;eau ou sortie d&rsquo;eau au lieu de livraison ?</label>
+            <select id="fEauArr">
               <option>Non</option>
-              <option>Oui - Mise sur bers à destination (+40 &euro;)</option>
-              <option>Oui - Service de manutention sur place</option>
-              <option>Les deux</option>
+              <option>Oui (+40 &euro;)</option>
             </select>
           </div>
+          <div class="fg">
+            <label>Manutention sur bers au lieu de prise en charge ?</label>
+            <select id="fBersDep">
+              <option>Non</option>
+              <option>Oui (+40 &euro;)</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Manutention sur bers au lieu de livraison ?</label>
+            <select id="fBersArr">
+              <option>Non</option>
+              <option>Oui (+40 &euro;)</option>
+            </select>
+          </div>
+          <div class="fg full" style="font-size:12px;color:#5b6b7e;line-height:1.5;margin-top:-4px">Un forfait de 40 &euro; par lieu concern&eacute; : si la mise &agrave; l&rsquo;eau ou la manutention sur bers est n&eacute;cessaire &agrave; la prise en charge <b>et</b> &agrave; la livraison, deux forfaits sont factur&eacute;s.</div>
           <div class="fg full">
             <label>Forfait d'arrimage du bateau : 40 &euro; (obligatoire)</label>
             <div style="background:#fff8e8;border:1px solid #e8d3a3;border-radius:9px;padding:10px 12px;font-size:13px;color:#4a3a14;line-height:1.5">Mise sur remorque, sanglage et calage pour le transport. Toujours factur&eacute;, car nous r&eacute;alisons nous-m&ecirc;mes toute la manutention.</div>

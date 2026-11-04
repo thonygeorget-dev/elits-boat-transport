@@ -385,24 +385,35 @@ footer { background:#0a0e1a; padding:28px 4%; display:flex; justify-content:spac
             <label>Lieu de livraison *</label>
             <input type="text" id="fArr" placeholder="Ex : 5 allée des Pins, 17137 L'Houmeau">
           </div>
-          <div class="fg full">
-            <label>Mise à l'eau ou sortie d'eau à réaliser ?</label>
-            <select id="fEau">
+          <div class="fg">
+            <label>Mise &agrave; l&rsquo;eau ou sortie d&rsquo;eau au lieu de prise en charge ?</label>
+            <select id="fEauDep">
               <option>Non</option>
-              <option>Oui - Mise à l'eau (+40 &euro;)</option>
-              <option>Oui - Sortie d'eau</option>
-              <option>Les deux - Sortie et remise à l'eau</option>
+              <option>Oui (+40 &euro;)</option>
             </select>
           </div>
-          <div class="fg full">
-            <label>Mise sur bers ou manutention sur place ?</label>
-            <select id="fBers">
+          <div class="fg">
+            <label>Mise &agrave; l&rsquo;eau ou sortie d&rsquo;eau au lieu de livraison ?</label>
+            <select id="fEauArr">
               <option>Non</option>
-              <option>Oui - Mise sur bers à destination (+40 &euro;)</option>
-              <option>Oui - Service de manutention sur place</option>
-              <option>Les deux</option>
+              <option>Oui (+40 &euro;)</option>
             </select>
           </div>
+          <div class="fg">
+            <label>Manutention sur bers au lieu de prise en charge ?</label>
+            <select id="fBersDep">
+              <option>Non</option>
+              <option>Oui (+40 &euro;)</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label>Manutention sur bers au lieu de livraison ?</label>
+            <select id="fBersArr">
+              <option>Non</option>
+              <option>Oui (+40 &euro;)</option>
+            </select>
+          </div>
+          <div class="fg full" style="font-size:12px;color:#5b6b7e;line-height:1.5;margin-top:-4px">Un forfait de 40 &euro; par lieu concern&eacute; : si la mise &agrave; l&rsquo;eau ou la manutention sur bers est n&eacute;cessaire &agrave; la prise en charge <b>et</b> &agrave; la livraison, deux forfaits sont factur&eacute;s.</div>
           <div class="fg full">
             <label>Forfait d'arrimage du bateau : 40 &euro; (obligatoire)</label>
             <div style="background:#fff8e8;border:1px solid #e8d3a3;border-radius:9px;padding:10px 12px;font-size:13px;color:#4a3a14;line-height:1.5">Mise sur remorque, sanglage et calage pour le transport. Toujours factur&eacute;, car nous r&eacute;alisons nous-m&ecirc;mes toute la manutention.</div>
@@ -614,7 +625,7 @@ footer { background:#0a0e1a; padding:28px 4%; display:flex; justify-content:spac
   <div class="zone-note">
     <strong>Forfait d'arrimage du bateau, toujours facturé :</strong> mise sur remorque et sanglage +40&euro; (nous réalisons toute la manutention)<br>
     <strong>Options, à titre indicatif et sur devis :</strong>
-    Mise à l'eau +40&euro; &nbsp;|&nbsp; Mise sur bers +40&euro; &nbsp;|&nbsp;
+    Mise à l'eau +40&euro; par lieu &nbsp;|&nbsp; Mise sur bers +40&euro; par lieu &nbsp;|&nbsp;
     Grand gabarit (plus de 6m ou plus de 1500kg) +40&euro; &nbsp;|&nbsp; Forfait prise en charge, si vous n'êtes pas présent (récupération du bateau à sa place au port et retour) +40&euro;<br>
     <strong>Déplacement depuis le domicile</strong> (Asnières-la-Giraud) compris dans les tarifs par zone &nbsp;|&nbsp;
     <strong>Dimensions max :</strong> 9 m et 2 200 kg
@@ -935,8 +946,12 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   var adr  = document.getElementById("fAdr").value.trim();
   var pds  = document.getElementById("fPds").value.trim();
   var dat  = document.getElementById("fDate").value;
-  var eau  = document.getElementById("fEau").value;
-  var bers = document.getElementById("fBers").value;
+  var eauD  = document.getElementById("fEauDep").value;
+  var eauA  = document.getElementById("fEauArr").value;
+  var bersD = document.getElementById("fBersDep").value;
+  var bersA = document.getElementById("fBersArr").value;
+  var nEau  = (eauD.indexOf("Oui") === 0 ? 1 : 0) + (eauA.indexOf("Oui") === 0 ? 1 : 0);
+  var nBers = (bersD.indexOf("Oui") === 0 ? 1 : 0) + (bersA.indexOf("Oui") === 0 ? 1 : 0);
   var prise = document.getElementById("fPrise").value;
   var hp = document.getElementById("fHoney");
   if (!hp) {
@@ -969,8 +984,12 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
     "Adresse": adr || "non renseignée",
     "Lieu de prise en charge": dep,
     "Lieu de livraison": arr,
-    "Mise à l'eau ou sortie d'eau": eau,
-    "Mise sur bers ou manutention": bers,
+    "Mise à l'eau / sortie d'eau au lieu de prise en charge": eauD,
+    "Mise à l'eau / sortie d'eau au lieu de livraison": eauA,
+    "Nombre de forfaits mise à l'eau / sortie d'eau": nEau + " x 40 €",
+    "Manutention sur bers au lieu de prise en charge": bersD,
+    "Manutention sur bers au lieu de livraison": bersA,
+    "Nombre de forfaits manutention sur bers": nBers + " x 40 €",
     "Forfait d'arrimage du bateau (obligatoire)": "40 € - mise sur remorque et sanglage",
     "Forfait prise en charge (aller chercher et ramener le bateau au ponton)": prise,
     "Type de bateau": type,

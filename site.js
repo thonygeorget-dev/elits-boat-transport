@@ -51,8 +51,12 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
   var adr  = document.getElementById("fAdr").value.trim();
   var pds  = document.getElementById("fPds").value.trim();
   var dat  = document.getElementById("fDate").value;
-  var eau  = document.getElementById("fEau").value;
-  var bers = document.getElementById("fBers").value;
+  var eauD  = document.getElementById("fEauDep").value;
+  var eauA  = document.getElementById("fEauArr").value;
+  var bersD = document.getElementById("fBersDep").value;
+  var bersA = document.getElementById("fBersArr").value;
+  var nEau  = (eauD.indexOf("Oui") === 0 ? 1 : 0) + (eauA.indexOf("Oui") === 0 ? 1 : 0);
+  var nBers = (bersD.indexOf("Oui") === 0 ? 1 : 0) + (bersA.indexOf("Oui") === 0 ? 1 : 0);
   var prise = document.getElementById("fPrise").value;
   var hp = document.getElementById("fHoney");
   if (!hp) {
@@ -85,8 +89,12 @@ document.getElementById("btnEnvoyer").addEventListener("click", function() {
     "Adresse": adr || "non renseignée",
     "Lieu de prise en charge": dep,
     "Lieu de livraison": arr,
-    "Mise à l'eau ou sortie d'eau": eau,
-    "Mise sur bers ou manutention": bers,
+    "Mise à l'eau / sortie d'eau au lieu de prise en charge": eauD,
+    "Mise à l'eau / sortie d'eau au lieu de livraison": eauA,
+    "Nombre de forfaits mise à l'eau / sortie d'eau": nEau + " x 40 €",
+    "Manutention sur bers au lieu de prise en charge": bersD,
+    "Manutention sur bers au lieu de livraison": bersA,
+    "Nombre de forfaits manutention sur bers": nBers + " x 40 €",
     "Forfait d'arrimage du bateau (obligatoire)": "40 € - mise sur remorque et sanglage",
     "Forfait prise en charge (aller chercher et ramener le bateau au ponton)": prise,
     "Type de bateau": type,
